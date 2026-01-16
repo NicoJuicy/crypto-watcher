@@ -1,0 +1,4 @@
+dotnet ef --startup-project C:\cesarc\Git\CryptoWatcherApi\Pinnacle.CryptoWatcher.Api  migrations add MasstransitOutbox --project C:\cesarc\Git\CryptoWatcherApi\CesarBmx.CryptoWatcher.Persistence --context MainDbContext
+
+ add-migration MasstransitOutbox -Context MainDbContext
+ script-migration -Context MainDbContext -i
