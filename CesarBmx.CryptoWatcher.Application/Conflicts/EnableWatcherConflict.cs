@@ -6,7 +6,6 @@ namespace CesarBmx.CryptoWatcher.Application.Conflicts
     public enum EnableWatcherConflictReason
     {
         WATCHER_ALREADY_ENABLED,
-        WATCHER_ALREADY_DISABLED,
     }
 
     public class EnableWatcherConflict : Error

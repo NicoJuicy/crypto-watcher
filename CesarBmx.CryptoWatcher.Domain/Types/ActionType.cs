@@ -10,9 +10,10 @@ namespace CesarBmx.CryptoWatcher.Domain.Types
         ADD_USER,
 
         // Watcher
-        ADD_WARTCHER,
-        SET_WARTCHER,
+        ADD_WATCHER,
+        SET_WATCHER,
         ENABLE_WATCHER,
+        DISABLE_WATCHER,
 
         // Indicator
         ADD_INDICATOR,

@@ -104,9 +104,14 @@
             Set watcher
             </summary>
         </member>
-        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.WatcherController.EnableWatcher(System.Int32,CesarBmx.CryptoWatcher.Application.Requests.EnableDisableWatcherRequest)">
+        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.WatcherController.EnableWatcher(System.Int32,CesarBmx.CryptoWatcher.Application.Requests.EnableWatcherRequest)">
             <summary>
-            Enable/Disable watcher
+            Enable watcher
+            </summary>
+        </member>
+        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.WatcherController.DisableWatcher(System.Int32,CesarBmx.CryptoWatcher.Application.Requests.DisableWatcherRequest)">
+            <summary>
+            Disable watcher
             </summary>
         </member>
     </members>

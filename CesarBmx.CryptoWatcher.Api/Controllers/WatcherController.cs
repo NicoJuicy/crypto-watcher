@@ -68,14 +68,15 @@ namespace CesarBmx.CryptoWatcher.Api.Controllers
         [SwaggerResponse(409, Type = typeof(AddWatcherConflict))]
         [SwaggerResponse(422, Type = typeof(ValidationFailed))]
         [SwaggerOperation(Tags = new[] { "Watchers" }, OperationId = "Watchers_AddWatcher")]
-        public async Task<IActionResult> AddWatcher([FromBody]AddWatcherRequest request)
+        public async Task<IActionResult> AddWatcher([FromBody] AddWatcherRequest request)
         {
             // Reponse
             var response = await _watcherService.AddWatcher(request);
 
             // Return
-            return CreatedAtRoute("Watchers_GetWatcher",  new {response.WatcherId}, response);
+            return CreatedAtRoute("Watchers_GetWatcher", new { response.WatcherId }, response);
         }
+
 
         /// <summary>
         /// Set watcher
@@ -94,23 +95,23 @@ namespace CesarBmx.CryptoWatcher.Api.Controllers
             request.WatcherId = watcherId;
 
             // Reponse
-            var response = await _watcherService.SetWatcher(request);
+            var response = await _watcherService.SetWatcher( request);
 
             // Return
             return Ok(response);
         }
 
         /// <summary>
-        /// Enable/Disable watcher
+        /// Enable watcher
         /// </summary>
         [HttpPut]
-        [Route("api/watchers/{watcherId}/enabled")]
+        [Route("api/watchers/{watcherId}/enable")]
         [SwaggerResponse(200, Type = typeof(WatcherResponse))]
         [SwaggerResponse(400, Type = typeof(BadRequest))]
         [SwaggerResponse(409, Type = typeof(EnableWatcherConflict))]
         [SwaggerResponse(422, Type = typeof(ValidationFailed))]
         [SwaggerOperation(Tags = new[] { "Watchers" }, OperationId = "Watchers_EnableWatcher")]
-        public async Task<IActionResult> EnableWatcher(int watcherId, [FromBody] EnableDisableWatcherRequest request)
+        public async Task<IActionResult> EnableWatcher(int watcherId, [FromBody] EnableWatcherRequest request)
         {
             // Request
             request.UserId = "cesarbmx";
@@ -118,6 +119,29 @@ namespace CesarBmx.CryptoWatcher.Api.Controllers
 
             // Reponse
             var response = await _watcherService.EnableWatcher(request);
+
+            // Return
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Disable watcher
+        /// </summary>
+        [HttpPut]
+        [Route("api/watchers/{watcherId}/disable")]
+        [SwaggerResponse(200, Type = typeof(WatcherResponse))]
+        [SwaggerResponse(400, Type = typeof(BadRequest))]
+        [SwaggerResponse(409, Type = typeof(DisableWatcherConflict))]
+        [SwaggerResponse(422, Type = typeof(ValidationFailed))]
+        [SwaggerOperation(Tags = new[] { "Watchers" }, OperationId = "Watchers_DisableWatcher")]
+        public async Task<IActionResult> DisableWatcher(int watcherId, [FromBody] DisableWatcherRequest request)
+        {
+            // Request
+            request.UserId = "cesarbmx";
+            request.WatcherId = watcherId;
+
+            // Reponse
+            var response = await _watcherService.DisableWatcher(request);
 
             // Return
             return Ok(response);

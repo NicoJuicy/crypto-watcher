@@ -93,9 +93,15 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
             // Return
             return this;
         }
-        public Watcher Enable(bool enabled)
+        public Watcher Enable()
         {
-            Enabled = enabled;
+            Enabled = true;
+
+            return this;
+        }
+        public Watcher Disable()
+        {
+            Enabled = false;
 
             return this;
         }

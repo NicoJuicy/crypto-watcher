@@ -1,26 +1,27 @@
-﻿using System;
+﻿using AutoMapper;
+using CesarBmx.CryptoWatcher.Application.Builders;
+using CesarBmx.CryptoWatcher.Application.Conflicts;
+using CesarBmx.CryptoWatcher.Application.Messages;
+using CesarBmx.CryptoWatcher.Application.Requests;
+using CesarBmx.CryptoWatcher.Application.Responses;
+using CesarBmx.CryptoWatcher.Domain.Builders;
+using CesarBmx.CryptoWatcher.Domain.Expressions;
+using CesarBmx.CryptoWatcher.Domain.Models;
+using CesarBmx.CryptoWatcher.Domain.Types;
+using CesarBmx.CryptoWatcher.Persistence.Contexts;
+using CesarBmx.Shared.Application.Exceptions;
+using CesarBmx.Shared.Application.Responses;
+using CesarBmx.Shared.Common.Extensions;
+using CesarBmx.Shared.Persistence.Extensions;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CesarBmx.CryptoWatcher.Application.Conflicts;
-using CesarBmx.Shared.Application.Exceptions;
-using CesarBmx.Shared.Common.Extensions;
-using CesarBmx.Shared.Persistence.Extensions;
-using CesarBmx.CryptoWatcher.Application.Requests;
-using CesarBmx.CryptoWatcher.Domain.Builders;
-using CesarBmx.CryptoWatcher.Domain.Expressions;
-using CesarBmx.CryptoWatcher.Application.Messages;
-using CesarBmx.CryptoWatcher.Persistence.Contexts;
-using CesarBmx.Shared.Application.Responses;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using CesarBmx.CryptoWatcher.Domain.Models;
-using CesarBmx.CryptoWatcher.Application.Builders;
-using CesarBmx.CryptoWatcher.Application.Responses;
-using MassTransit;
-using CesarBmx.CryptoWatcher.Domain.Types;
+using Telegram.Bot.Types;
 
 namespace CesarBmx.CryptoWatcher.Application.Services
 {
@@ -137,7 +138,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var logId = Guid.NewGuid();
 
             // Log action type
-            var actionType = ActionType.ADD_WARTCHER;
+            var actionType = ActionType.ADD_WATCHER;
 
             // Log description
             var description = $"New watcher added ({watcher.CurrencyId}, {watcher.IndicatorId})";
@@ -162,9 +163,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
         }
         public async Task<Result<WatcherResponse,SetWatcherError>> SetWatcher(SetWatcherRequest request)
         {
-
             // Start span
             using var span = _activitySource.StartActivity(nameof(SetWatcher));
+
+            // Add tags
             span.AddTag("UserId", request.UserId);
 
             // Result
@@ -201,7 +203,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var logId = Guid.NewGuid();
 
             // Log action type
-            var actionType = ActionType.ADD_WARTCHER;
+            var actionType = ActionType.SET_WATCHER;
 
             // Log description
             var description = $"Watcher set ({watcher.CurrencyId}, {watcher.IndicatorId}, buy:{watcher.Buy}, sell:{watcher.Sell})";
@@ -227,7 +229,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             // Return
             return result;
         }
-        public async Task<Responses.WatcherResponse> EnableWatcher(EnableDisableWatcherRequest request)
+        public async Task<Responses.WatcherResponse> EnableWatcher(EnableWatcherRequest request)
         {
             // Start span
             using var span = _activitySource.StartActivity(nameof(EnableWatcher));
@@ -240,13 +242,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             if (watcher == null) throw new NotFoundException(WatcherMessage.WatcherNotFound);
 
             // Watcher already enabled
-            if (watcher.Enabled == request.Enabled && request.Enabled) throw new ConflictException(new EnableWatcherConflict(EnableWatcherConflictReason.WATCHER_ALREADY_ENABLED, WatcherMessage.WatcherAlreadyEnabled));
-
-            // Watcher already disabled
-            if (watcher.Enabled == request.Enabled && !request.Enabled) throw new ConflictException(new EnableWatcherConflict(EnableWatcherConflictReason.WATCHER_ALREADY_DISABLED, WatcherMessage.WatcherAlreadyDisabled));
+            if (watcher.Enabled) throw new ConflictException(new EnableWatcherConflict(EnableWatcherConflictReason.WATCHER_ALREADY_ENABLED, WatcherMessage.WatcherAlreadyEnabled));
 
             // Update watcher
-            watcher.Enable(request.Enabled);
+            watcher.Enable();
 
             // Update
             _mainDbContext.Watchers.Update(watcher);
@@ -277,6 +276,57 @@ namespace CesarBmx.CryptoWatcher.Application.Services
 
             // Log
             _logger.LogInformation("{@Event}, {@Id}, {@UserId}, {@Request}, {@Response}", nameof(EnableWatcher), logId, request.UserId, request, response);
+
+            // Return
+            return response;
+        }
+        public async Task<Responses.WatcherResponse> DisableWatcher(DisableWatcherRequest request)
+        {
+            // Start span
+            using var span = _activitySource.StartActivity(nameof(DisableWatcher));
+            span.AddTag("UserId", request.UserId);
+
+            // Get watcher
+            var watcher = await _mainDbContext.Watchers.FindAsync(request.WatcherId);
+
+            // Watcher not found
+            if (watcher == null) throw new NotFoundException(WatcherMessage.WatcherNotFound);
+
+            // Watcher already disabled
+            if (!watcher.Enabled) throw new ConflictException(new DisableWatcherConflict(DisableWatcherConflictReason.WATCHER_ALREADY_DISABLED, WatcherMessage.WatcherAlreadyDisabled));
+
+            // Update watcher
+            watcher.Disable();
+
+            // Update
+            _mainDbContext.Watchers.Update(watcher);
+
+            // Now
+            var now = DateTime.UtcNow.StripSeconds();
+
+            // Log Id
+            var logId = Guid.NewGuid();
+
+            // Log action type
+            var actionType = ActionType.ENABLE_WATCHER;
+
+            // Log description
+            var description = $"Watcher enabled ({watcher.CurrencyId}, {watcher.IndicatorId})";
+
+            // Add user log
+            var userLog = new UserLog(logId, watcher.UserId, actionType, description, now);
+
+            // Add user log
+            _mainDbContext.UserLogs.Add(userLog);
+
+            // Save
+            await _mainDbContext.SaveChangesAsync();
+
+            // Response
+            var response = _mapper.Map<WatcherResponse>(watcher);
+
+            // Log
+            _logger.LogInformation("{@Event}, {@Id}, {@UserId}, {@Request}, {@Response}", nameof(DisableWatcher), logId, request.UserId, request, response);
 
             // Return
             return response;
