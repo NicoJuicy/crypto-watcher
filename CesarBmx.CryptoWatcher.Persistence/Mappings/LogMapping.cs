@@ -5,9 +5,9 @@ using CesarBmx.Shared.Persistence.Extensions;
 
 namespace CesarBmx.CryptoWatcher.Persistence.Mappings
 {
-    public static class UserLogMapping
+    public static class LogMapping
     {
-        public static void Map(this EntityTypeBuilder<UserLog> entityBuilder)
+        public static void Map(this EntityTypeBuilder<Log> entityBuilder)
         {
             // Key
             entityBuilder.HasKey(t => t.LogId)
@@ -15,7 +15,6 @@ namespace CesarBmx.CryptoWatcher.Persistence.Mappings
 
             // Indexes
             entityBuilder.HasIndex(t => new { t.UserId, t.CreatedAt })
-                .IsUnique()
                 .IsClustered();
 
             // Relationships

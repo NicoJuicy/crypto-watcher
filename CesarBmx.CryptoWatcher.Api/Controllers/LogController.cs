@@ -11,13 +11,13 @@ namespace CesarBmx.CryptoWatcher.Api.Controllers
     [SwaggerResponse(401, Type = typeof(Unauthorized))]
     [SwaggerResponse(403, Type = typeof(Forbidden))]
     [SwaggerOrder(orderPrefix: "F")]
-    public class UserLogController : Controller
+    public class LogController : Controller
     {
-        private readonly UserLogService _userLogService;
+        private readonly LogService _logService;
 
-        public UserLogController(UserLogService userLogService)
+        public LogController(LogService logService)
         {
-            _userLogService = userLogService;
+            _logService = logService;
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace CesarBmx.CryptoWatcher.Api.Controllers
         /// </summary>
         [HttpGet]
         [Route("api/users/{userId}/logs")]
-        [SwaggerResponse(200, Type = typeof(List<UserLogResponse>))]
-        [SwaggerOperation(Tags = new[] { "User logs" }, OperationId = "UsersLogs_GetUserLogs")]
-        public async Task<IActionResult> GetUsers(string userId)
+        [SwaggerResponse(200, Type = typeof(List<LogResponse>))]
+        [SwaggerOperation(Tags = new[] { "Logs" }, OperationId = "UserLogs_GetLogs")]
+        public async Task<IActionResult> GetUserLogs(string userId)
         {
             // Reponse
-            var response = await _userLogService.GetUserLogs(userId);
+            var response = await _logService.GetLogs(userId);
 
             // Return
             return Ok(response);

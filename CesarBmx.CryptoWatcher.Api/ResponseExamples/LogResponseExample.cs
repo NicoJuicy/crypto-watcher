@@ -4,11 +4,11 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace CesarBmx.CryptoWatcher.Api.ResponseExamples
 {
-    public class UserLogListResponseExample : IExamplesProvider<List<UserLogResponse>>
+    public class LogListResponseExample : IExamplesProvider<List<LogResponse>>
     {
-        public List<UserLogResponse> GetExamples()
+        public List<LogResponse> GetExamples()
         {
-            return FakeUserLog.GetFake_List();
+            return FakeLog.GetFake_List();
         }
     }
 }

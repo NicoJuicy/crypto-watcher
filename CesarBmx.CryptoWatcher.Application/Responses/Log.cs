@@ -4,7 +4,7 @@ using System;
 
 namespace CesarBmx.CryptoWatcher.Application.Responses
 {
-    public class UserLogResponse
+    public class LogResponse
     {
         public Guid LogId { get; set; }
         public string UserId { get; set; }

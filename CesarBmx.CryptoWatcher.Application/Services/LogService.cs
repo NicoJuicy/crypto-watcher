@@ -10,14 +10,14 @@ using CesarBmx.CryptoWatcher.Application.Responses;
 
 namespace CesarBmx.CryptoWatcher.Application.Services
 {
-    public class UserLogService
+    public class LogService
     {
         private readonly MainDbContext _mainDbContext;
         private readonly ILogger<UserService> _logger;
         private readonly IMapper _mapper;
         private readonly ActivitySource _activitySource;
 
-        public UserLogService(
+        public LogService(
             MainDbContext mainDbContext,
             ILogger<UserService> logger,
             IMapper mapper,
@@ -29,16 +29,16 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             _activitySource = activitySource;
         }
 
-        public async Task<List<UserLogResponse>> GetUserLogs(string userId)
+        public async Task<List<LogResponse>> GetLogs(string userId)
         {
             // Start span
-            using var span = _activitySource.StartActivity(nameof(GetUserLogs));
+            using var span = _activitySource.StartActivity(nameof(GetLogs));
 
             // Get all users
-            var users = await _mainDbContext.UserLogs.Where(x => x.UserId == userId).ToListAsync();
+            var users = await _mainDbContext.Logs.Where(x => x.UserId == userId).ToListAsync();
 
             // Response
-            var response = _mapper.Map<List<UserLogResponse>>(users);
+            var response = _mapper.Map<List<LogResponse>>(users);
 
             // Return
             return response;

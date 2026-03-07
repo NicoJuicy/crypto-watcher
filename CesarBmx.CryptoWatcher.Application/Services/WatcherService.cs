@@ -144,10 +144,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"New watcher added ({watcher.CurrencyId}, {watcher.IndicatorId})";
 
             // Add user log
-            var userLog = new UserLog(logId, user.UserId, actionType, description, now);
+            var log = new Log(logId, user.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();
@@ -209,10 +209,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"Watcher set ({watcher.CurrencyId}, {watcher.IndicatorId}, buy:{watcher.Buy}, sell:{watcher.Sell})";
 
             // Add user log
-            var userLog = new UserLog(logId, watcher.UserId, actionType, description, now);
+            var log = new Log(logId, watcher.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();
@@ -263,10 +263,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"Watcher enabled ({watcher.CurrencyId}, {watcher.IndicatorId})";
 
             // Add user log
-            var userLog = new UserLog(logId, watcher.UserId, actionType, description, now);
+            var log = new Log(logId, watcher.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();
@@ -314,10 +314,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"Watcher enabled ({watcher.CurrencyId}, {watcher.IndicatorId})";
 
             // Add user log
-            var userLog = new UserLog(logId, watcher.UserId, actionType, description, now);
+            var log = new Log(logId, watcher.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();

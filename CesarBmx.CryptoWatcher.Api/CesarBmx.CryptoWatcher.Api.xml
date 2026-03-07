@@ -49,6 +49,11 @@
             Get lines
             </summary>
         </member>
+        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.LogController.GetUserLogs(System.String)">
+            <summary>
+            Get user logs
+            </summary>
+        </member>
         <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.ScriptVariablesController.GetScriptVariables(CesarBmx.CryptoWatcher.Domain.Types.Period,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
             <summary>
             Get script variables
@@ -77,11 +82,6 @@
         <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.UsersController.AddUser(CesarBmx.CryptoWatcher.Application.Requests.AddUserRequest)">
             <summary>
             Add user
-            </summary>
-        </member>
-        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.UserLogController.GetUsers(System.String)">
-            <summary>
-            Get user logs
             </summary>
         </member>
         <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.WatcherController.GetUserWatchers(System.String,System.String,System.String)">

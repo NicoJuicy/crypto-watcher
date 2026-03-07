@@ -142,10 +142,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"Indicator added ({indicator.IndicatorId})";
 
             // Add user log
-            var userLog = new UserLog(logId, indicator.UserId, actionType, description, now);
+            var log = new Log(logId, indicator.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();            
@@ -210,10 +210,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"Indicator updated ({indicator.IndicatorId})";
 
             // Add user log
-            var userLog = new UserLog(logId, indicator.UserId, actionType, description, now);
+            var log = new Log(logId, indicator.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();

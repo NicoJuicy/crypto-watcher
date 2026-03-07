@@ -6,12 +6,12 @@ using CesarBmx.Shared.Common.Extensions;
 
 namespace CesarBmx.CryptoWatcher.Application.FakeResponses
 {
-    public static class FakeUserLog
+    public static class FakeLog
     {
 
-        public static UserLogResponse GetFake_User1()
+        public static LogResponse GetFake_User1()
         {
-            return new UserLogResponse
+            return new LogResponse
             {
                 LogId = Guid.NewGuid(),
                 UserId = "cesarbmx",
@@ -20,9 +20,9 @@ namespace CesarBmx.CryptoWatcher.Application.FakeResponses
                 CreatedAt = DateTime.UtcNow.StripSeconds()
             };
         }
-        public static List<UserLogResponse> GetFake_List()
+        public static List<LogResponse> GetFake_List()
         {
-            return new List<UserLogResponse>
+            return new List<LogResponse>
             {
                 GetFake_User1()
             };

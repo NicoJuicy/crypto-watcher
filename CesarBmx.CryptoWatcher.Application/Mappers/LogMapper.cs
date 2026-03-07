@@ -4,11 +4,11 @@ using CesarBmx.CryptoWatcher.Domain.Models;
 
 namespace CesarBmx.CryptoWatcher.Application.Mappers
 {
-    public class UserLogMapper : Profile
+    public class LogMapper : Profile
     {
-        public UserLogMapper()
+        public LogMapper()
         {
-            CreateMap<UserLog, UserLogResponse>();
+            CreateMap<Log, LogResponse>();
         }
     }
 }

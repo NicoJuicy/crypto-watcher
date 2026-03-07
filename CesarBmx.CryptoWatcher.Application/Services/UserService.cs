@@ -98,10 +98,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             var description = $"New user added ({user.UserId})";
 
             // Add user log
-            var userLog = new UserLog(logId, user.UserId, actionType, description, now);
+            var log = new Log(logId, user.UserId, actionType, description, now);
 
             // Add user log
-            _mainDbContext.UserLogs.Add(userLog);
+            _mainDbContext.Logs.Add(log);
 
             // Save
             await _mainDbContext.SaveChangesAsync();
