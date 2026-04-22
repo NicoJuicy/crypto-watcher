@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CesarBmx.CryptoWatcher.Domain.Types;
+using System.Collections.Generic;
 
 
 namespace CesarBmx.CryptoWatcher.Application.Responses
@@ -6,6 +7,7 @@ namespace CesarBmx.CryptoWatcher.Application.Responses
     public class IndicatorResponse
     {
         public string IndicatorId { get; set; }
+        public IndicatorType IndicatorType { get; set; }
         public string UserId { get; set; }
         public string Abbreviation { get; set; }
         public string Name { get; set; }

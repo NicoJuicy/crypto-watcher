@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using CesarBmx.CryptoWatcher.Application.Responses;
+﻿using CesarBmx.CryptoWatcher.Application.Responses;
+using CesarBmx.CryptoWatcher.Domain.Types;
+using System.Collections.Generic;
 
 namespace CesarBmx.CryptoWatcher.Application.FakeResponses
 {
@@ -10,6 +11,7 @@ namespace CesarBmx.CryptoWatcher.Application.FakeResponses
             return new IndicatorResponse
             {
                 IndicatorId = "master.PRICE",
+                IndicatorType = IndicatorType.FORMULA,
                 UserId = "master",
                 Abbreviation = "PRICE",
                 Name = "Price",
@@ -23,6 +25,7 @@ namespace CesarBmx.CryptoWatcher.Application.FakeResponses
             return new IndicatorResponse
             {
                 IndicatorId = "master.RSI",
+                IndicatorType = IndicatorType.FORMULA,
                 UserId = "master",
                 Abbreviation = "RSI",
                 Name = "RSI",

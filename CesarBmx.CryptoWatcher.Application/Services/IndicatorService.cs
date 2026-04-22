@@ -121,8 +121,9 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             // Create
             indicator = new Indicator(
                 request.UserId,
+                request.IndicatorType,
                 request.Abbreviation,
-                request.Name,
+                request.Name,                
                 request.Description,
                 request.Formula,
                 indicatorDependencies,

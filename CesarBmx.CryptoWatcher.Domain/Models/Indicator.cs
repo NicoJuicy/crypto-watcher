@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CesarBmx.CryptoWatcher.Domain.Types;
+using System;
 using System.Collections.Generic;
 
 namespace CesarBmx.CryptoWatcher.Domain.Models
@@ -6,6 +7,7 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
     public class Indicator
     {
         public string IndicatorId { get; private set; }
+        public IndicatorType IndicatorType { get; private set; }
         public string UserId { get; private set; }
         public string Abbreviation { get; private set; }
         public string Name { get; private set; }
@@ -18,6 +20,7 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
         public Indicator() { }
         public Indicator(
             string userId,
+            IndicatorType indicatorType,
             string abbreviation,
             string name, 
             string description,
@@ -28,6 +31,7 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
         {
             IndicatorId = userId + "." + abbreviation;
             UserId = userId;
+            IndicatorType = indicatorType;
             Abbreviation = abbreviation;
             Name = name;
             Description = description;

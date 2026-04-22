@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using CesarBmx.CryptoWatcher.Domain.Types;
 using CesarBmx.Shared.Authentication.Attributes;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace CesarBmx.CryptoWatcher.Application.Requests
@@ -10,6 +11,7 @@ namespace CesarBmx.CryptoWatcher.Application.Requests
     {
         [JsonIgnore] public string IndicatorId => UserId + "." + Abbreviation;
         [JsonIgnore] [Identity] public string UserId { get; set; }
+        [Required] public IndicatorType IndicatorType { get; set; }
         [Required] public string Abbreviation { get; set; }
         [Required] public string Name { get; set; }
         [Required] public string Description { get; set; }

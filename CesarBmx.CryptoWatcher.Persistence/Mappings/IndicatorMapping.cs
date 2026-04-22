@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CesarBmx.CryptoWatcher.Domain.Models;
+using CesarBmx.CryptoWatcher.Domain.Types;
 using CesarBmx.Shared.Common.Extensions;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CesarBmx.CryptoWatcher.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
 
 namespace CesarBmx.CryptoWatcher.Persistence.Mappings
 {
@@ -52,8 +53,7 @@ namespace CesarBmx.CryptoWatcher.Persistence.Mappings
                 .IsRequired();
 
             entityBuilder.Property(t => t.Formula)
-                .HasColumnType("nvarchar(max)")
-                .IsRequired();
+                .HasColumnType("nvarchar(max)");
 
             entityBuilder.Property(t => t.DependencyLevel)
                 .HasColumnType("smallint")
@@ -66,9 +66,9 @@ namespace CesarBmx.CryptoWatcher.Persistence.Mappings
             // Seed data
             var time = DateTime.UtcNow.StripSeconds();
             entityBuilder.HasData(
-                new Indicator( "master", "PRICE", "Price", "", "", new List<IndicatorDependency>(), 0, time),
-                new Indicator("master", "PRICE_CHANGE_24H",   "Price change 24Hrs", "", "", new List<IndicatorDependency>(), 1, time),
-                new Indicator("master", "HYPE",   "Hype", "", "", new List<IndicatorDependency>(), 1, time)
+                new Indicator( "master", IndicatorType.FORMULA, "PRICE", "Price", "", "", new List<IndicatorDependency>(), 0, time),
+                new Indicator("master", IndicatorType.FORMULA, "PRICE_CHANGE_24H", "Price change 24Hrs", "", "", new List<IndicatorDependency>(), 1, time),
+                new Indicator("master", IndicatorType.FORMULA, "HYPE",   "Hype", "", "", new List<IndicatorDependency>(), 1, time)
             );
         }
     }
