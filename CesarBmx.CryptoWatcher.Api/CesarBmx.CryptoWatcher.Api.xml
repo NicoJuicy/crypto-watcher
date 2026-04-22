@@ -49,6 +49,11 @@
             Get lines
             </summary>
         </member>
+        <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.LineController.UpdateLine(CesarBmx.CryptoWatcher.Domain.Types.Period,System.String,System.String,CesarBmx.CryptoWatcher.Application.Requests.UpdateLineRequest)">
+            <summary>
+            Update line
+            </summary>
+        </member>
         <member name="M:CesarBmx.CryptoWatcher.Api.Controllers.LogController.GetUserLogs(System.String)">
             <summary>
             Get user logs

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using CesarBmx.CryptoWatcher.Application.Requests;
 using CesarBmx.CryptoWatcher.Application.Settings;
+using CesarBmx.CryptoWatcher.Domain.Builders;
 using CesarBmx.CryptoWatcher.Domain.Expressions;
 using CesarBmx.CryptoWatcher.Domain.Models;
-using CesarBmx.CryptoWatcher.Domain.Builders;
 using CesarBmx.CryptoWatcher.Domain.Types;
 using CesarBmx.CryptoWatcher.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CesarBmx.CryptoWatcher.Application.Services
 {
@@ -50,6 +51,10 @@ namespace CesarBmx.CryptoWatcher.Application.Services
 
             // Return
             return response;
+        }
+        public async Task<List<Responses.Line>> UpdateLine(UpdateLineRequest request)
+        {
+            throw new NotImplementedException();
         }
         public async Task<List<Line>> CreateNewLines(List<Currency> currencies, List<Indicator> indicators)
         {
