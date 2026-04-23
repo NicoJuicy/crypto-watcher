@@ -31,14 +31,14 @@ namespace CesarBmx.CryptoWatcher.Application.Services
         private readonly ILogger<WatcherService> _logger;
         private readonly IMapper _mapper;
         private readonly ActivitySource _activitySource;
-        private readonly MassTransit.IBus _bus;
+        private readonly IBus _bus;
 
         public WatcherService(
             MainDbContext mainDbContext,
             ILogger<WatcherService> logger,
             IMapper mapper,
             ActivitySource activitySource,
-            MassTransit.IBus bus)
+            IBus bus)
         {
             _mainDbContext = mainDbContext;
             _logger = logger;
@@ -402,7 +402,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             using var span = _activitySource.StartActivity(nameof(PlaceOrders));
 
             // Grab watchers selling
-            var watchersSelling = watchers.Where(x=>x.Status == Domain.Types.WatcherStatus.SELLING).ToList();
+            var watchersSelling = watchers.Where(x=>x.Status == WatcherStatus.SELLING).ToList();
 
             // Build PlaceOrders
             var placeSellOrders = watchersSelling.BuildPlaceOrders();
@@ -418,7 +418,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             _mainDbContext.Watchers.UpdateRange(watchersSelling);
 
             // Grab watchers buying
-            var watchersBuying = watchers.Where(x=>x.Status == Domain.Types.WatcherStatus.BUYING).ToList();
+            var watchersBuying = watchers.Where(x=>x.Status == WatcherStatus.BUYING).ToList();
 
             // Build PlaceOrders
             var placeBuyOrders = watchersBuying.BuildPlaceOrders();
