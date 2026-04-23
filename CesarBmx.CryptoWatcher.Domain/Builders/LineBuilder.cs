@@ -32,7 +32,7 @@ namespace CesarBmx.CryptoWatcher.Domain.Builders
                 foreach (var indicator in indicators.Where(x => x.DependencyLevel == dependencyLevel))
                 {
                     // Get all watchers for this currency indicator pair
-                    var filteredWatchers = watchers.Where(WatcherExpression.Filter(null, currency.CurrencyId, indicator.IndicatorId).Compile()).ToList();
+                    var filteredWatchers = watchers.Where(WatcherExpression.FilterFunc(null, currency.CurrencyId, indicator.IndicatorId)).ToList();
 
                     // Build value and averages
                     var value = IndicatorBuilder.BuildValue(currency, indicator, lines);

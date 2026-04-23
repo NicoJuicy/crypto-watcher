@@ -42,7 +42,7 @@ namespace CesarBmx.CryptoWatcher.Domain.Builders
             // Sync watcher
             foreach (var watcher in watchers)
             {
-                var defaultWatcher = defaultWatchers.FirstOrDefault(WatcherExpression.DefaultWatcher(watcher.CurrencyId, watcher.IndicatorId).Compile());
+                var defaultWatcher = defaultWatchers.FirstOrDefault(WatcherExpression.DefaultWatcherFunc(watcher.CurrencyId, watcher.IndicatorId));
                 if (defaultWatcher != null) watcher.Sync(defaultWatcher);
             }
         }
