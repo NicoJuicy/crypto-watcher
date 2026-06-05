@@ -66,41 +66,31 @@ namespace CesarBmx.CryptoWatcher.Domain.Builders
         }
         public static WatcherStatus BuildWatcherStatus(WatcherStatus currentStatus, decimal? buy, decimal? sell, decimal? value, bool hasBuyingOrder, bool hasSellingOrder, bool isBuyingOrderConfirmed, bool isSellingOrderConfirmed)
         {
-            // If the value has not been set yet, we don't change the status
-            if (!value.HasValue)
-                return currentStatus;
 
-            // If the buy has no value, it is not set
-            if (currentStatus == WatcherStatus.NOT_SET && !buy.HasValue)
-                return WatcherStatus.NOT_SET;
-
-            // If the buy has value and there is no buying order, then it is set
-            if (currentStatus == WatcherStatus.NOT_SET && buy.HasValue && buy < value)
-                return WatcherStatus.SET;
-
-            // If there is no buying order but the value meets the buy, then it is buying
-            if (currentStatus == WatcherStatus.SET && buy >= value)
-                return WatcherStatus.BUYING;
-
-            // If there is no buying order but the value meets the buy, then it is buying
-            if (currentStatus == WatcherStatus.BUYING && hasBuyingOrder)
-                return WatcherStatus.BOUGHT;
-
-            // If the buy is confirmed and the sell has no value,then it is holding
-            if (currentStatus == WatcherStatus.BOUGHT && !sell.HasValue)
-                return WatcherStatus.HOLDING;
-
-            // If the sell has value, there is no selling order and the value meets the sell, then it is selling
-            if (currentStatus == WatcherStatus.BOUGHT && sell.HasValue && sell <= value)
-                return WatcherStatus.SELLING;
-
-            // If the sell is confirmed
-            if (currentStatus == WatcherStatus.SELLING && isSellingOrderConfirmed)
+            // If the sell is confirmed, then it is sold 
+            if (currentStatus == WatcherStatus.SELLING && hasSellingOrder && isSellingOrderConfirmed)
                 return WatcherStatus.SOLD;
 
+            // If it has a selling order, or the sell value is less than or equal to the current value, then it is selling
+            if ((currentStatus == WatcherStatus.BUYING  || currentStatus == WatcherStatus.HOLDING ) && (hasSellingOrder || value >= sell))
+                return WatcherStatus.SELLING;
+
+            // If the buy is confirmed, then it is bought
+            if (hasBuyingOrder && isBuyingOrderConfirmed)
+                return WatcherStatus.HOLDING;
+
+            // If the buy value is greater than or equal to the current value, or it has a buying order,  then it is buying
+            if (value <= buy || hasBuyingOrder && !isBuyingOrderConfirmed)
+                return WatcherStatus.BUYING;
+
+            // If the watcher has, at least, a buy value, then it is set
+            if (buy != null)
+                return WatcherStatus.SET;
+
             // Default value
-            return currentStatus;
+            return WatcherStatus.NOT_SET;
         }
+
         public static bool BuildHasBuyingOrder(this Watcher watcher)
         {
             var hasBuyingOrder = watcher.BuyingOrder != null;

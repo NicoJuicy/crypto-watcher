@@ -1,6 +1,4 @@
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CesarBmx.CryptoWatcher.Tests.Domain.FakeModels;
 using CesarBmx.CryptoWatcher.Domain.Types;
 using CesarBmx.CryptoWatcher.Domain.Builders;
 
@@ -50,7 +48,7 @@ namespace CesarBmx.CryptoWatcher.Tests.Domain.Builders
             var status = WatcherBuilder.BuildWatcherStatus(
                 currentStatus: WatcherStatus.NOT_SET,
                 buy: 2000,
-                sell: null,
+                sell: 3000,
                 value:3000,
                 hasBuyingOrder: false,
                 hasSellingOrder: false,
@@ -61,15 +59,15 @@ namespace CesarBmx.CryptoWatcher.Tests.Domain.Builders
             Assert.AreEqual(WatcherStatus.SET, status);
         }
         [TestMethod]
-        public void Test_WatcherBuying()
+        public void Test_WatcherBuying_WithSell()
         {
             // Act
             var status = WatcherBuilder.BuildWatcherStatus(
                 currentStatus: WatcherStatus.SET,
                 buy: 2000,
-                sell: null,
+                sell: 3000,
                 value: 2000,
-                hasBuyingOrder: false,
+                hasBuyingOrder: true,
                 hasSellingOrder: false,
                 isBuyingOrderConfirmed: false,
                 isSellingOrderConfirmed: false);
@@ -78,11 +76,11 @@ namespace CesarBmx.CryptoWatcher.Tests.Domain.Builders
             Assert.AreEqual(WatcherStatus.BUYING, status);
         }
         [TestMethod]
-        public void Test_WatcherBought()
+        public void Test_WatcherBuying_WithoutSell()
         {
             // Act
             var status = WatcherBuilder.BuildWatcherStatus(
-                currentStatus: WatcherStatus.BUYING,
+                currentStatus: WatcherStatus.SET,
                 buy: 2000,
                 sell: null,
                 value: 2000,
@@ -92,14 +90,31 @@ namespace CesarBmx.CryptoWatcher.Tests.Domain.Builders
                 isSellingOrderConfirmed: false);
 
             // Assert
-            Assert.AreEqual(WatcherStatus.BOUGHT, status);
+            Assert.AreEqual(WatcherStatus.BUYING, status);
         }
         [TestMethod]
-        public void Test_WatcherHolding()
+        public void Test_WatcherHolding_WithSell()
         {
             // Act
             var status = WatcherBuilder.BuildWatcherStatus(
-                currentStatus: WatcherStatus.BOUGHT,
+                currentStatus: WatcherStatus.BUYING,
+                buy: 2000,
+                sell: 3000,
+                value: 2900,
+                hasBuyingOrder: true,
+                hasSellingOrder: false,
+                isBuyingOrderConfirmed: true,
+                isSellingOrderConfirmed: false);
+
+            // Assert
+            Assert.AreEqual(WatcherStatus.HOLDING, status);
+        }
+        [TestMethod]
+        public void Test_WatcherHolding_WithoutSell()
+        {
+            // Act
+            var status = WatcherBuilder.BuildWatcherStatus(
+                currentStatus: WatcherStatus.BUYING,
                 buy: 2000,
                 sell: null,
                 value: 3000,
@@ -116,12 +131,12 @@ namespace CesarBmx.CryptoWatcher.Tests.Domain.Builders
         {
             // Act
             var status = WatcherBuilder.BuildWatcherStatus(
-                currentStatus: WatcherStatus.BOUGHT,
+                currentStatus: WatcherStatus.BUYING,
                 buy: 2000,
                 sell: 3000,
                 value: 3000,
                 hasBuyingOrder: true,
-                hasSellingOrder: false,
+                hasSellingOrder: true,
                 isBuyingOrderConfirmed: true,
                 isSellingOrderConfirmed: false);
 

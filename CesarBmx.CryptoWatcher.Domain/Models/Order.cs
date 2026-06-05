@@ -12,7 +12,6 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
         {
             OrderId = Guid.NewGuid();
         }
-
         public Order ConfirmOrder(decimal price, DateTime executedAt)
         {
             Price = price;

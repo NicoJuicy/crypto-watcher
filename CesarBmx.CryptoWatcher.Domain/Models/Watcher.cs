@@ -69,6 +69,9 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
             Enabled = watcher.Enabled;
             CreatedAt = watcher.CreatedAt;
 
+            // Set status
+            SetStatus();
+
             return this;
         }
         public Watcher Set(decimal? buy, decimal? sell, decimal? quantity)
@@ -111,12 +114,18 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
         }
         public Watcher Sync(decimal? averageBuyValue, decimal? averageSellValue, decimal? value, decimal? price)
         {
+            // Set avarages
             AverageBuy = averageBuyValue;
             AverageSell = averageSellValue;
             Price = price;
             Value = value;
 
+            // Set status
             SetStatus();
+
+            // Set orders
+            if (Status == WatcherStatus.BUYING && BuyingOrder == null) BuyingOrder = new Order();
+            if (Status == WatcherStatus.SELLING && SellingOrder == null) SellingOrder = new Order();
 
             return this;
         }
@@ -136,24 +145,14 @@ namespace CesarBmx.CryptoWatcher.Domain.Models
                hasSellingOrder,
                isBuyingOrderConfirmed,
                isSellingOrderConfirmed);
-
-            if (Status == WatcherStatus.BUYING && BuyingOrder == null) BuyingOrder = new Order();
-            if (Status == WatcherStatus.SELLING && SellingOrder == null) SellingOrder = new Order();
         }    
         public Watcher ConfirmOrder(decimal price, DateTime executedAt)
         {
-            if (SellingOrder != null)
-            {
-                SellingOrder.ConfirmOrder(price, executedAt);
-                SetStatus();
-                return this;
-            }
-            if (BuyingOrder != null)
-            {
-                BuyingOrder.ConfirmOrder(price, executedAt);
-                SetStatus();
-                return this;
-            }
+            if (SellingOrder != null) SellingOrder.ConfirmOrder(price, executedAt);            
+            if (BuyingOrder != null) BuyingOrder.ConfirmOrder(price, executedAt);
+
+            SetStatus();
+
             return this;
         }
         public Watcher ConfirmBuyOrder(decimal price, DateTime executedAt)
