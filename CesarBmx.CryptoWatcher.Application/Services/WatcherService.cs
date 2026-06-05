@@ -47,7 +47,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             _bus = bus;
         }
 
-        public async Task<List<Responses.WatcherResponse>> GetUserWatchers(string userId = null, string currencyId = null, string indicatorId = null)
+        public async Task<List<WatcherResponse>> GetUserWatchers(string userId = null, string currencyId = null, string indicatorId = null)
         {
             // Start span
             using var span = _activitySource.StartActivity(nameof(GetUserWatchers));
@@ -67,7 +67,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             // Return
             return response;
         }
-        public async Task<Responses.WatcherResponse> GetWatcher(int watcherId)
+        public async Task<WatcherResponse> GetWatcher(int watcherId)
         {
             // Start span
             using var span = _activitySource.StartActivity(nameof(GetWatcher));
@@ -84,7 +84,7 @@ namespace CesarBmx.CryptoWatcher.Application.Services
             // Return
             return response;
         }
-        public async Task<Responses.WatcherResponse> AddWatcher(AddWatcherRequest request)
+        public async Task<WatcherResponse> AddWatcher(AddWatcherRequest request)
         {
             // Start span
             using var span = _activitySource.StartActivity(nameof(AddWatcher));
